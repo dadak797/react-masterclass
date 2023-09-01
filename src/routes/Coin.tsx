@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { Outlet, useLocation, useParams, Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
@@ -59,7 +59,7 @@ const Tabs = styled.div`
   gap: 10px;
 `;
 
-const Tab = styled.span<{ isActive: boolean }>`
+const Tab = styled.span<{ $isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
@@ -68,7 +68,7 @@ const Tab = styled.span<{ isActive: boolean }>`
   padding: 7px 0px;
   border-radius: 10px;
   color: ${(props) =>
-    props.isActive ? props.theme.accentColor : props.theme.textColor};
+    props.$isActive ? props.theme.accentColor : props.theme.textColor};
   a {
     display: block;
   }
@@ -199,10 +199,10 @@ function Coin() {
             </Overview>
 
             <Tabs>
-                <Tab isActive={chartMatch !== null}>
+                <Tab $isActive={chartMatch !== null}>
                     <Link to={`/${coinId}/chart`}>Chart</Link>
                 </Tab>
-                <Tab isActive={priceMatch !== null}>
+                <Tab $isActive={priceMatch !== null}>
                     <Link to={`/${coinId}/price`}>Price</Link>
                 </Tab>
             </Tabs>
