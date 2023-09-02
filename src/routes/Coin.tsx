@@ -140,10 +140,6 @@ interface PriceData {
     };
 }
 
-interface ICoinTheme {
-  isDark: boolean;
-}
-
 function Coin() {
     const { coinId } = useParams() as unknown as RouteParams;
     const { state } = useLocation() as LocationState;
@@ -158,7 +154,6 @@ function Coin() {
       // }
     );
     const loading = infoLoading || tickersLoading;
-    const { isDark } = useOutletContext<ICoinTheme>();
     return (
       <Container>
         <Helmet>
@@ -206,7 +201,7 @@ function Coin() {
                 </Tab>
             </Tabs>
 
-            <Outlet context={{ coinId, isDark }}/>
+            <Outlet context={{ coinId }}/>
             </>
         )}
       </Container>
