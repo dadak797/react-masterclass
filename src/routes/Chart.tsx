@@ -19,6 +19,10 @@ interface ChartProps {
     coinId: string,
 }
 
+interface IChartTheme {
+    isDark: boolean;
+}
+
 function Chart() {
     const { coinId } = useOutletContext<ChartProps>();
     const { isLoading, data } = useQuery<IHistorical[]>(
@@ -28,6 +32,7 @@ function Chart() {
         //     refetchInterval: 100000,
         // }
     );
+    const { isDark } = useOutletContext<IChartTheme>();
     return (
         <div>
             {isLoading ? (
@@ -43,7 +48,7 @@ function Chart() {
                     ]}
                     options={{
                         theme: {
-                            mode: "dark",
+                            mode: isDark ? "dark" : "light",
                         },
                         chart: {
                             height: 300,

@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 // import { useEffect, useState } from "react";
-import { Outlet, useLocation, useParams, Link, useMatch } from "react-router-dom";
+import { Outlet, useLocation, useParams, Link, useMatch, useOutletContext } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { Helmet } from "react-helmet-async";
@@ -140,6 +140,10 @@ interface PriceData {
     };
 }
 
+interface ICoinTheme {
+  isDark: boolean;
+}
+
 function Coin() {
     const { coinId } = useParams() as unknown as RouteParams;
     const { state } = useLocation() as LocationState;
@@ -154,6 +158,7 @@ function Coin() {
       // }
     );
     const loading = infoLoading || tickersLoading;
+    const { isDark } = useOutletContext<ICoinTheme>();
     return (
       <Container>
         <Helmet>
@@ -201,7 +206,7 @@ function Coin() {
                 </Tab>
             </Tabs>
 
-            <Outlet context={{ coinId }}/>
+            <Outlet context={{ coinId, isDark }}/>
             </>
         )}
       </Container>
