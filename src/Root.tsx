@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import { createGlobalStyle } from "styled-components";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { HelmetProvider } from "react-helmet-async";
 
 
 const GlobalStyle = createGlobalStyle`
@@ -69,9 +68,7 @@ function App() {
   return (
     <>
       <GlobalStyle />
-      <HelmetProvider>
-        <Outlet />
-      </HelmetProvider>
+      <Outlet />
       <ReactQueryDevtools initialIsOpen={true} />
     </>
   );
