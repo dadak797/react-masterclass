@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Outlet, useLocation, useParams, Link, useMatch } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
+import { Helmet } from "react-helmet-async";
 
 
 const Title = styled.h1`
@@ -142,29 +143,22 @@ interface PriceData {
 function Coin() {
     const { coinId } = useParams() as unknown as RouteParams;
     const { state } = useLocation() as LocationState;
-    // const [loading, setLoading] = useState(true);
-    // const [info, setInfo] = useState<InfoData>();
-    // const [priceInfo, setPriceInfo] = useState<PriceData>();
     const priceMatch = useMatch("/:coinId/price");
     const chartMatch = useMatch("/:coinId/chart");
-    // useEffect(() => {
-    //     (async () => {
-    //         const infoData = await (
-    //             await fetch(`https://api.coinpaprika.com/v1/coins/${coinId}`)
-    //         ).json();
-    //         const priceData = await (
-    //             await fetch(`https://api.coinpaprika.com/v1/tickers/${coinId}`)
-    //         ).json();
-    //         setInfo(infoData);
-    //         setPriceInfo(priceData);
-    //         setLoading(false);
-    //     })();
-    // }, [coinId]);
     const { isLoading: infoLoading, data: infoData } = useQuery<InfoData>(["info", coinId], () => fetchCoinInfo(coinId));
-    const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(["ticker", coinId], () => fetchCoinTickers(coinId));
+    const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
+      ["ticker", coinId],
+      () => fetchCoinTickers(coinId),
+      // {
+      //   refetchInterval: 5000,
+      // }
+    );
     const loading = infoLoading || tickersLoading;
     return (
       <Container>
+        <Helmet>
+            <title>{ state?.name ? state.name : loading ? "Loading..." : infoData?.name }</title>
+        </Helmet>
         <Header>
           <Title>{ state?.name ? state.name : loading ? "Loading..." : infoData?.name }</Title>
         </Header>
@@ -182,8 +176,8 @@ function Coin() {
                     <span>${infoData?.symbol}</span>
                 </OverviewItem>
                 <OverviewItem>
-                    <span>Open Source:</span>
-                    <span>{infoData?.open_source ? "Yes" : "No"}</span>
+                    <span>Price:</span>
+                    <span>{tickersData?.quotes.USD.price.toFixed(3)}</span>
                 </OverviewItem>
             </Overview>
             <Description>{infoData?.description}</Description>
