@@ -4,7 +4,7 @@ import { RecoilRoot } from 'recoil';
 import { RouterProvider } from 'react-router-dom';
 import router from "./Router";
 import { ThemeProvider } from 'styled-components';
-import { darkTheme } from './theme';
+import { theme } from './theme';
 import { createGlobalStyle } from "styled-components";
 
 
@@ -75,12 +75,12 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <RecoilRoot>
-      <ThemeProvider theme={darkTheme}>
+      <ThemeProvider theme={theme}>
         <GlobalStyle />
         <RouterProvider router={router} />
       </ThemeProvider>
     </RecoilRoot>
-  // </React.StrictMode>
+  </React.StrictMode>
 );
