@@ -50,13 +50,22 @@ const box = {
 function App() {
   const [visible, setVisible] = useState(1);
   const [back, setBack] = useState(false);
+  const [btnDisabled, setBtnDisabled] = useState(false);
   const nextPlease = () => {
+    setBtnDisabled(true);
     setBack(false);
     setVisible((prev) => (prev === 10 ? 10 : prev + 1));
+    setTimeout(() => {
+      setBtnDisabled(false);
+    }, 300);
   }
   const prevPlease = () => {
+    setBtnDisabled(true);
     setBack(true);
     setVisible((prev) => (prev === 1 ? 1 : prev - 1));
+    setTimeout(() => {
+      setBtnDisabled(false);
+    }, 300);
   }
   return (
     <Wrapper>
@@ -72,8 +81,8 @@ function App() {
           {visible}
         </Box>
       </AnimatePresence>
-      <button onClick={nextPlease}>next</button>
-      <button onClick={prevPlease}>prev</button>
+      <button onClick={nextPlease} disabled={btnDisabled}>next</button>
+      <button onClick={prevPlease} disabled={btnDisabled}>prev</button>
     </Wrapper>
   );
 }
